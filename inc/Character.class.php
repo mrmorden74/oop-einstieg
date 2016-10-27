@@ -4,11 +4,11 @@
 */
 class Character
 {
-    private $name;
-    private $healthpoints;
-    private $strenght;
-    private $stamina;
-    private $isActive = true;
+    protected $name;
+    protected $healthpoints;
+    protected $strenght;
+    protected $stamina;
+    protected $isActive = true;
 
     public function __construct(string $name, int $healthpoints = 30, int $strenght = 10, int $stamina = 5)
     {
@@ -17,21 +17,14 @@ class Character
         $this->strenght = $strenght;
         $this->stamina = $stamina;
     }
-    private function isActive()
-    {
-        if (!$this->isActive) {
-            echo "Aktion kann nicht durchgeführt werden!<br>";
-            return false;
-        }
-         return true;
-    }
+
     public function fight()
     {
         if (!$this->isActive()) {
             return;
         }
-		//   echo '<embed src="audio/fikn-fight.wav" autostart="true" loop="false" hidden="true">'; 
-		  echo '<embed src="audio/fikn-fight.wav" hidden="true"> '; 
+        //   echo '<embed src="audio/fikn-fight.wav" autostart="true" loop="false" hidden="true">';
+        echo '<embed src="audio/fikn-fight.wav" hidden="true"> ';
         $win = rand(0, 1);
         echo "{$this->name} kämpft<br>";
         if ($win === 0) {
@@ -42,21 +35,17 @@ class Character
         $this->checkhealth();
     }
 
-    private function checkHealth()
-    {
-        if ($this->healthpoints <=0) {
-            $this->dying();
-        }
-    }
 
     public function getHealth(): int
     {
         return $this->healthpoints;
     }
+
     public function getName(): string
     {
         return $this->name;
     }
+
     public function move()
     {
         if (!$this->isActive()) {
@@ -64,13 +53,31 @@ class Character
         }
         echo "{$this->name} bewegt sich<br>";
     }
-    private function dying()
-    {
-        echo "{$this->name} ist kampfunfähig<br>";
-        $this->isActive = false;
-    }
+
     public function flee()
     {
         echo "{$this->name} flüchtet!<br>";
+    }
+
+    protected function isActive()
+    {
+        if (!$this->isActive) {
+            echo "Aktion kann nicht durchgeführt werden!<br>";
+            return false;
+        }
+         return true;
+    }
+
+    protected function checkHealth()
+    {
+        if ($this->healthpoints <=0) {
+            $this->dying();
+        }
+    }
+    
+    protected function dying()
+    {
+        echo "{$this->name} ist kampfunfähig<br>";
+        $this->isActive = false;
     }
 }

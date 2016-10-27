@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1); // php7 Muss die erste Anweisung in einer Datei sein
 require_once 'inc/Character.class.php';
+require_once 'inc/Sorcerer.class.php';
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -19,8 +20,11 @@ require_once 'inc/Character.class.php';
 			<?php
 
 		  	// Hero erstellen
+			$sorcerer = new Sorcerer('Gandalf');
+			var_dump($sorcerer);
 			$hero = new Character('Gimli', 10);
 			$hero->fight();
+			$sorcerer->castSpell();
 			$hero->fight();
 			$hero->fight();
 			$hero->fight();
