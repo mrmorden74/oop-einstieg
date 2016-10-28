@@ -53,7 +53,7 @@ if (count($_POST)) {
         $enemy = new Character('Smaug', 500, 100, 100);
     }
     if (isset($_POST["action"])) {
-        $hero = new $_POST["typ"]($_POST["name"], (int)$_POST["lp"], (int)$_POST["strenght"], (int)$_POST["stamina"]);
+        $hero = new $_POST["typ"]($_POST["name"], (int)$_POST["lp"], (int)$_POST["strenght"], (int)$_POST["stamina"], boolval($_POST["isActive"]));
         $enemy = new Character('Smaug', 500, 100, 100);
         switch ($_POST["action"]) {
             case 'attack':
@@ -75,12 +75,22 @@ if (count($_POST)) {
     echo '<div class="pure-u-1-2">';
     echo "<p><img src='img/{$hero->getPicture()}' width=60% height= 60% /></p>";
     echo '<h3>Wähle eine Aktion</h3>';
+    // Post Hero Stats
     $typ = get_class($hero);
     echo "<input name='typ' type='text' value='$typ' hidden>";
     echo "<input name='name' type='text' value='{$hero->getName()}' hidden>";
     echo "<input name='lp' type='number' value={$hero->getHealth()} hidden>";
     echo "<input name='stamina' type='number' value={$hero->getStamina()} hidden>";
     echo "<input name='strenght' type='number' value={$hero->getStrenght()} hidden>";
+    echo "<input name='isActive' type='text' value='{$hero->isActive()}' hidden>";
+    // Post Hero Stats
+    $typ = get_class($enemy);
+    echo "<input name='enemy_typ' type='text' value='$typ' hidden>";
+    echo "<input name='enemy_name' type='text' value='{$enemy->getName()}' hidden>";
+    echo "<input name='enemy_lp' type='number' value={$enemy->getHealth()} hidden>";
+    echo "<input name='enemy_stamina' type='number' value={$enemy->getStamina()} hidden>";
+    echo "<input name='enemy_strenght' type='number' value={$enemy->getStrenght()} hidden>";
+    // actions to choose
     echo '<p><button typ="submit" name="action" value="attack" class="pure-button">Angriff</button></p>';
     echo '<p><button typ="submit" name="action" value="specialAttack" class="pure-button">Spezialfähigkeit</button></p>';
     echo '<p><button typ="submit" name="action" value="defend" class="pure-button">Blocken</button></p>';

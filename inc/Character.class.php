@@ -10,29 +10,31 @@ class Character
     protected $stamina;
     protected $isActive = true;
     protected $picture;
-    public function __construct(string $name, int $healthpoints = 30, int $strenght = 10, int $stamina = 5, string $picture='dragon.jpg')
+    public function __construct(string $name, int $healthpoints = 30, int $strenght = 10, int $stamina = 5, bool $isActive = true, string $picture='dragon.jpg')
     {
         $this->name = $name;
         $this->healthpoints = $healthpoints;
         $this->strenght = $strenght;
         $this->stamina = $stamina;
         $this->picture = $picture;
+        $this->isActive = $isActive;
     }
 
     public function fight()
     {
         if (!$this->isActive()) {
+            echo "Aktion kann nicht durchgeführt werden!<br>";
             return;
         }
         //   echo '<embed src="audio/fikn-fight.wav" autostart="true" loop="false" hidden="true">';
-        echo '<embed src="audio/fikn-fight.wav" hidden="true"> ';
+        // echo '<embed src="audio/fikn-fight.wav" hidden="true"> ';
         $win = rand(0, 1);
         echo "{$this->name} kämpft<br>";
         if ($win === 0) {
             $damage = rand(1, 10);
             $this->healthpoints -= $damage;
             echo "{$this->name} verliert und erhält $damage Schaden<br>";
-        }
+        } 
         $this->checkhealth();
     }
 
@@ -71,6 +73,7 @@ class Character
     public function move()
     {
         if (!$this->isActive()) {
+            echo "Aktion kann nicht durchgeführt werden!<br>";
             return;
         }
         echo "{$this->name} bewegt sich<br>";
@@ -81,10 +84,9 @@ class Character
         echo "{$this->name} flüchtet!<br>";
     }
 
-    protected function isActive()
+    public function isActive()
     {
         if (!$this->isActive) {
-            echo "Aktion kann nicht durchgeführt werden!<br>";
             return false;
         }
          return true;
@@ -92,7 +94,7 @@ class Character
 
     protected function checkHealth()
     {
-        if (!$this->isActive) {
+        if ($this->isActive) {
             if ($this->healthpoints <=0) {
                 $this->dying();
             }
