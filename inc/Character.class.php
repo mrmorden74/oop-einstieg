@@ -9,13 +9,14 @@ class Character
     protected $strenght;
     protected $stamina;
     protected $isActive = true;
-
-    public function __construct(string $name, int $healthpoints = 30, int $strenght = 10, int $stamina = 5)
+    protected $picture;
+    public function __construct(string $name, int $healthpoints = 30, int $strenght = 10, int $stamina = 5, string $picture='dragon.jpg')
     {
         $this->name = $name;
         $this->healthpoints = $healthpoints;
         $this->strenght = $strenght;
         $this->stamina = $stamina;
+        $this->picture = $picture;
     }
 
     public function fight()
@@ -35,10 +36,31 @@ class Character
         $this->checkhealth();
     }
 
-
+    public function getEnemyStats()
+    {
+        $status = '<p class="border">Feind<br><br>';
+		$status .= 'Name: '.$this->name.'<br>';
+        $status .= 'LP: '.$this->healthpoints.'<br>';
+        $status .= 'Stärke: '.$this->strenght.'<br>';
+        $status .= 'Ausdauer: '.$this->stamina.'<br></p>';
+        echo $status;
+        return $status;
+    }
+    public function getPicture(): string
+    {
+        return $this->picture;
+    }
     public function getHealth(): int
     {
         return $this->healthpoints;
+    }
+    public function getStamina(): int
+    {
+        return $this->stamina;
+    }
+    public function getStrenght(): int
+    {
+        return $this->strenght;
     }
 
     public function getName(): string
@@ -70,8 +92,10 @@ class Character
 
     protected function checkHealth()
     {
-        if ($this->healthpoints <=0) {
-            $this->dying();
+        if (!$this->isActive) {
+            if ($this->healthpoints <=0) {
+                $this->dying();
+            }
         }
     }
     
