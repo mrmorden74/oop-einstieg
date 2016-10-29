@@ -3,6 +3,23 @@ declare(strict_types=1); // php7 Muss die erste Anweisung in einer Datei sein
 require_once 'inc/Character.class.php';
 require_once 'inc/Heroes.class.php';
 require_once 'inc/Specialattacks.class.php';
+$args = array(
+    'typ'   => FILTER_SANITIZE_STRING,
+    'name'    => FILTER_SANITIZE_STRING,
+    'lp'     => FILTER_SANITIZE_NUMBER_INT,
+    'stamina' => FILTER_SANITIZE_NUMBER_INT,
+    'strenght'   => FILTER_SANITIZE_NUMBER_INT,
+    'isActive'   => FILTER_SANITIZE_NUMBER_INT,
+    'enemy_typ'   => FILTER_SANITIZE_STRING,
+    'enemy_name'   => FILTER_SANITIZE_STRING,
+    'enemy_lp'   => FILTER_SANITIZE_NUMBER_INT,
+    'enemy_stamina'   => FILTER_SANITIZE_NUMBER_INT,
+    'enemy_strenght'   => FILTER_SANITIZE_NUMBER_INT,
+    'action'   => FILTER_SANITIZE_STRING,
+    'button'   => FILTER_SANITIZE_STRING,
+);
+
+$post = filter_input_array(INPUT_POST, $args);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -19,7 +36,10 @@ require_once 'inc/Specialattacks.class.php';
         </header>
         <main>
 <?php
-if (!count($_POST)) {
+//var_dump($post);
+//var_dump($post);
+
+if (!count($post)) {
     echo '<h3>Wähle eine Helden</h3>';
     echo '<form action="" method="post" >';
     echo '<div class="pure-g">';
@@ -34,17 +54,17 @@ if (!count($_POST)) {
     echo '<p><button typ="submit" name="button" value="Dwarf" class="pure-button">Krieger (Zwerg)</button></p></div>';
     echo '</div></form>';
 } 
-if (count($_POST)) {
-    if (isset($_POST["button"])) {
-        switch ($_POST["button"]) {
+if (count($post)) {
+    if (isset($post["button"])) {
+        switch ($post["button"]) {
             case 'Elf':
-                $hero = new $_POST["button"]('Legolas');
+                $hero = new $post["button"]('Legolas');
                 break;
             case 'Human':
-                $hero = new $_POST["button"]('Boromir');
+                $hero = new $post["button"]('Boromir');
                 break;
             case 'Dwarf':
-                $hero = new $_POST["button"]('Gimli');
+                $hero = new $post["button"]('Gimli');
                 break;
             default:
                 $hero = new Dwarf('Gimli');
@@ -52,10 +72,10 @@ if (count($_POST)) {
         }
         $enemy = new Character('Smaug', 500, 100, 100);
     }
-    if (isset($_POST["action"])) {
-        $hero = new $_POST["typ"]($_POST["name"], (int)$_POST["lp"], (int)$_POST["strenght"], (int)$_POST["stamina"], boolval($_POST["isActive"]));
+    if (isset($post["action"])) {
+        $hero = new $post["typ"]($post["name"], (int)$post["lp"], (int)$post["strenght"], (int)$post["stamina"], boolval($post["isActive"]));
         $enemy = new Character('Smaug', 500, 100, 100);
-        switch ($_POST["action"]) {
+        switch ($post["action"]) {
             case 'attack':
                 $hero->fight();
                 break;
@@ -97,7 +117,7 @@ if (count($_POST)) {
     echo '</div>';
     echo '<div class="pure-u-1-2">';
     echo "<p><img src='img/{$enemy->getPicture()}' width=70% height= 70% /></p>";
-    //  $type = $_POST["type"] ?? $_POST["button"];
+    //  $type = $post["type"] ?? $post["button"];
     $hero->getHeroStats();
     $enemy->getEnemyStats();
     echo '<div>';
